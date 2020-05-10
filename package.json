@@ -8,6 +8,7 @@
   "author": "",
   "private": true,
   "scripts": {
+    "start": "npm run dev",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
