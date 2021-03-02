@@ -69,7 +69,7 @@ export default {
 				let centre = auditoria.centre
 				let data = auditoria.dataAuditoria
 				auditoria.obs_noConf.forEach(obsnc => {
-					if (obsnc.estat == "pendent"){
+					if (obsnc.estat == "pendent" && obsnc.on=="n"){
 						let on = obsnc.on
 						let numero = obsnc.numero
 						let textON = obsnc.text
