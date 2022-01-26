@@ -23,8 +23,14 @@ export function mutCarregarAuditories ( state, valor ) {
 
 
 
+export function updateCampAmaga ( state, payload ) {
+  state.auditories[payload.idxAuditoria].amaga = payload.valor
+}
 export function updateCampNumero ( state, payload ) {
   state.auditories[payload.idxAuditoria].obs_noConf[payload.idxObsNoConf].numero = payload.valor
+}
+export function updateCampDataAM ( state, payload ) {
+  state.auditories[payload.idxAuditoria].obs_noConf[payload.idxObsNoConf].dataAM = payload.valor
 }
 export function updateCampText ( state, payload ) {
   state.auditories[payload.idxAuditoria].obs_noConf[payload.idxObsNoConf].text = payload.valor

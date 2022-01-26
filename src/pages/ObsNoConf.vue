@@ -1,23 +1,16 @@
 <template>
   <q-page class="q-pa-md">
     <div class="column">
-      <!--             
-					<div class="row justify-center q-mb-md">	
-						<div class="col-md-8 col-12 bg-grey-3">
-							<div class="row justify-between">
-                <div class="col">
-                    Centre: <span class="text-weight-bold text-red"> {{ auditoria.centre }} </span>
-                </div>
-                <div class="col text-right">
-                    Data: <span class="text-weight-bold text-red"> {{ auditoria.dataAuditoria }} </span>
-                </div>
-							</div>
-            </div>
-          </div>  
-      -->
+							
+			<div class="col text-center">
+				<q-checkbox v-model="campAmaga" left-label label="Amagar seguiment d'aquesta auditoria: " class="q-mr-md" />	
+			</div>  
+	
       <div class="row justify-center">
-        <div class="col-md-8 col-12">
-          <q-tabs
+        <div class="col-md-10 col-12">
+          
+					
+					<q-tabs
             v-model="tab"
             class="bg-grey-5 text-black shadow-5 rounded-bordered"
             active-color="white text-h6"
@@ -25,13 +18,18 @@
             indicator-color="yellow-2"
             align="justify"
           >
-            <q-tab name="observacions" label="Observacions">
-            </q-tab>
             <q-tab name="accionsNoConformitat" label="No Conformitats">
+            </q-tab>
+            <q-tab name="observacions" label="Observacions">
             </q-tab>
           </q-tabs>
 
+
+
+
           <q-tab-panels v-model="tab" animated class="bg-grey-4">
+
+					<!-- OBSERVACIONS -->
             <q-tab-panel name="observacions">
               <div class="row justify-between items-center">
                 <div class="col">
@@ -99,7 +97,9 @@
               </div>
             </q-tab-panel>
 
-            <q-tab-panel name="accionsNoConformitat">
+						
+						<!-- NO  CONFORMITATS -->
+						<q-tab-panel name="accionsNoConformitat">
               <div class="row justify-between items-center">
                 <div class="col">
                   <q-btn
@@ -177,6 +177,15 @@
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section class="col items-start">
           <q-input class="col q-mb-md" v-model="txtNumero" label="Numero" type="number" color="brown" stack-label label-type="" label-color="negative" filled />
+          <q-input
+            class="col q-mb-md"
+            v-model="txtDataAM"
+            stack-label
+            label-color="negative"
+            filled
+            type="date"
+            label="Data registre Accion de Mejora"
+          />
           <q-input class="col q-mb-md" v-model="txtText" label="Text" type="textarea" color="brown" stack-label label-color="negative" filled />
         </q-card-section>
 
@@ -207,7 +216,7 @@ export default {
 
   data() {
     return {
-      tab: "observacions",
+      tab: "accionsNoConformitat",
       // amagarObsFinalitzades: "",
       // amagarNoConfFinalitzades: "",
 
@@ -218,6 +227,7 @@ export default {
       txtNumero: null,
       txtText: null,
       txtOn: null,
+			txtDataAM: null   // data de registre a Acciones de Mejora
     };
   },
 
@@ -226,6 +236,7 @@ export default {
       this.txtOn = on
       this.txtNumero = null
       this.txtText = null
+			this.txtDataAM = null
       
       this.activarFormulariON = true
     },
@@ -237,6 +248,7 @@ export default {
             on:this.txtOn, 
             numero: this.txtNumero, 
             text: this.txtText,
+						dataAM: this.txtDataAM,
             estat: "pendent",
             seguiment: []
           },
@@ -248,6 +260,17 @@ export default {
   },
 
   computed: {
+
+    campAmaga: {
+			get() {
+        return this.$store.state.example.auditories[this.idxAuditoria].amaga
+      },
+			set (value) {
+				this.$store.commit( 'example/updateCampAmaga', { idxAuditoria: this.idxAuditoria, valor: value})
+      }
+		},
+
+
     auditoria: function() {
       return this.$store.state.example.auditories[this.idxAuditoria];
     },

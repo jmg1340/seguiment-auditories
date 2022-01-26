@@ -4,8 +4,19 @@
       <q-card-section class="column">
         <div class="row inline nowrap" v-if="editar">
           
-          <div class="col-2">
+          <div class="col-1">
             <q-input type="number" square outlined v-model="campNumero" stack-label label="Num."/>
+          </div>
+          <div class="col-2">
+          <q-input
+            class="col q-mb-md"
+            v-model="campDataAM"
+            stack-label
+            label-color="negative"
+            filled
+            type="date"
+            label="Data A. Mejora"
+          />
           </div>
           <div class="col">
             <q-input type="textarea" square outlined v-model="campText" stack-label label="Text"/>
@@ -20,6 +31,11 @@
         
         <div class="row inline nowrap shadow-8" v-else>
           <div class="col-auto q-pa-sm borde text-red text-h6 text-weight-bold">{{ campNumero }}</div>
+          <div class="col-auto borde   q-pa-sm">
+						<div> Data A. Mejora: <span class="text-weight-bold">{{ campDataAM }}</span> </div>
+						<div> Data límit: <span class="text-weight-bold text-red">{{dataLimitAM(campDataAM)}}</span> </div>	
+						<q-card class="text-center bordered bg-brown-2">{{diferenciaDataAM(campDataAM)}}</q-card>
+					</div>
           <div class="col borde  text-weight-bold q-pa-sm">{{ campText }}</div>
           <div class="col-1 borde text-center">
             <q-badge v-if="campEstat == 'finalitzat'" color="green-9" class="q-pm-sm" >{{campEstat}}</q-badge>
@@ -77,6 +93,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import cmp_regSEG from "./registreSeguiments"
 
 export default {
@@ -111,6 +128,15 @@ export default {
       },
 			set (value) {
 				this.$store.commit( 'example/updateCampNumero', { idxAuditoria: this.idxAuditoria, idxObsNoConf: this.idxObsNoConf, valor: value})
+      }
+		},
+  
+    campDataAM: {
+			get() {
+        return this.$store.state.example.auditories[this.idxAuditoria].obs_noConf[this.idxObsNoConf].dataAM
+      },
+			set (value) {
+				this.$store.commit( 'example/updateCampDataAM', { idxAuditoria: this.idxAuditoria, idxObsNoConf: this.idxObsNoConf, valor: value})
       }
 		},
   
@@ -203,7 +229,26 @@ export default {
         console.log("No s'ha trobat index")
       }
         
-    }
+    },
+
+		dataLimitAM (dAM) {
+			// la data limit d'una Accio de Millora crec que son de 6 mesos.
+			// per tant, la data limit serà la dataAM (d) + 6 mesos
+			return (dAM== "" || dAM== null) ? null : moment(dAM).add(6, 'months').format('YYYY-MM-DD');
+		},
+
+		diferenciaDataAM (dAM) {
+			var fechaInicio = moment();
+			var fechaFin    = moment(this.dataLimitAM(dAM))
+
+			var difDias =  fechaFin.diff(fechaInicio, 'days')
+			console.log("difDias", difDias)
+
+			if (dAM == null || dAM=="")          return ""
+			if (difDias < 0 )                    return "Fora de termini en " + Math.abs(difDias) + " dies !!"
+			if (difDias >= 0  && difDias <= 30)  return "Falta menys d'un mes!! (" + Math.abs(difDias) + " dies)"
+			if (difDias > 30 )                   return "Falten " + Math.abs(difDias) + " dies !!"
+		}
 
   }
 };

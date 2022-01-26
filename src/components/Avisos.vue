@@ -4,7 +4,7 @@
 
 		<div class="col"> 
 			<div class="row">
-				<div class="col-1 bordeCapsalera text-center">Data A.</div>
+				<div class="col-2 bordeCapsalera text-center">Data límit Acc.Mej.</div>
 				<div class="col-2 bordeCapsalera">Centre</div>
 				<div class="col-1 bordeCapsalera text-center">Obs/NC</div>
 				<!-- <div class="col-1 bordeCapsalera text-center">Num</div> -->
@@ -15,7 +15,12 @@
 		</div>
 		<div class="col q-gutter-md" v-for="(obj,index) in arrAvisos"  :key="`avis_${index}`"> 
 			<div class="row">
-				<div class="col-1 bordeInferiorDret bordeEsquerre text-center q-pa-xs">{{obj.dataAuditoria}}</div>
+				<!-- <div class="col-1 bordeInferiorDret bordeEsquerre text-center q-pa-xs">{{obj.dataAuditoria}}</div> -->
+				<div class="col-2 bordeInferiorDret bordeEsquerre text-center q-pa-xs">
+					<div><span class="text-weight-bold text-red">{{dataLimitAM(obj.dataAM)}}</span> </div>	
+					<q-card class="text-center bordered bg-brown-2">{{diferenciaDataAM(obj.dataAM)}}</q-card>
+				</div>
+
 				<div class="col-2 bordeInferiorDret q-pa-xs">{{obj.centre}}</div>
 				<div class="col-1 bordeInferiorDret text-center q-pa-xs">
 					 {{ (obj.on == "o") ? "OBS " : "NC " }}
@@ -34,7 +39,11 @@
 	</div>
 </template>
 
+
+
 <script>
+import moment from 'moment';
+
 export default {
   data(){
 		return{
@@ -56,7 +65,29 @@ export default {
 				}).onDismiss(() => {
 					// console.log('I am triggered on both OK and Cancel')
 				})			
+		},
+
+		dataLimitAM (dAM) {
+			// la data limit d'una Accio de Millora crec que son de 6 mesos.
+			// per tant, la data limit serà la dataAM (d) + 6 mesos
+			return (dAM== "" || dAM== null) ? null : moment(dAM).add(6, 'months').format('YYYY-MM-DD');
+		},
+
+		diferenciaDataAM (dAM) {
+			var fechaInicio = moment();
+			var fechaFin    = moment(this.dataLimitAM(dAM))
+
+			var difDias =  fechaFin.diff(fechaInicio, 'days')
+			console.log("difDias", difDias)
+
+			if (dAM == null || dAM=="")          return ""
+			if (difDias < 0 )                    return "Fora de termini en " + Math.abs(difDias) + " dies !!"
+			if (difDias >= 0  && difDias <= 30)  return "Falta menys d'un mes!! (" + Math.abs(difDias) + " dies)"
+			if (difDias > 30 )                   return "Falten " + Math.abs(difDias) + " dies !!"
 		}
+
+
+
 	},
 
 	computed:{
@@ -73,6 +104,7 @@ export default {
 						let on = obsnc.on
 						let numero = obsnc.numero
 						let textON = obsnc.text
+						let dataAM = obsnc.dataAM
 						
 						console.log("obsnc.seguiment.length: " + obsnc.seguiment.length)
 						if ( obsnc.seguiment.length !== 0 ) {
@@ -95,6 +127,7 @@ export default {
 								arr.push({
 									centre: centre,
 									dataAuditoria: data,
+									dataAM: dataAM,
 									on: on,
 									numero: numero,
 									textON: textON,
@@ -105,10 +138,11 @@ export default {
 
 							}
 						} else {
-							// no hi ha cap registre de seguiement
+							// no hi ha cap registre de seguiment
 							arr.push({
 								centre: centre,
 								dataAuditoria: data,
+								dataAM: dataAM,
 								on: on,
 								numero: numero,
 								textON: textON,
@@ -119,6 +153,7 @@ export default {
 				});
 			});
 
+			console.log("arr", arr)
 			return arr.map((val,idx) => ({...val, index: idx}))
 
 		}

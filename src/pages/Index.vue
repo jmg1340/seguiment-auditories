@@ -7,6 +7,7 @@
             title="Auditories"
             :data="arrAuditoriesON"
             :columns="columns"
+						:filter="filter"
             row-key="index"
             color="brown-14"
             separator="cell"
@@ -15,6 +16,24 @@
             class="my-sticky-column-table shadow-14"
           >
             <template v-slot:top-right>
+
+							<q-checkbox v-model="bAmaga" left-label label="Amagades" class="q-mr-md" />
+
+							<q-input 
+								outlined 
+								rounded 
+								dense 
+								debounce="300" 
+								v-model="filter" 
+								placeholder="buscar..."
+								class="q-mr-md"
+								bg-color="brown-2"
+								>
+								<template v-slot:append>
+									<q-icon name="search" />
+								</template>
+							</q-input>
+
               <q-btn
                 dense
                 color="grey-8"
@@ -42,6 +61,22 @@
                 </q-td>
 
                 <q-td
+                  key="NC_pend"
+                  :props="props"
+                  @click="anarAObsMillores(props.key)"
+                >
+                  {{ props.row.NCPend }}
+                </q-td>
+
+                <q-td
+                  key="NC_susp"
+                  :props="props"
+                  @click="anarAObsMillores(props.key)"
+                >
+                  {{ props.row.NCSusp }}
+                </q-td>
+								
+                <q-td
                   key="OBS_pend"
                   :props="props"
                   @click="anarAObsMillores(props.key)"
@@ -56,26 +91,13 @@
                   {{ props.row.obsSusp }}
                 </q-td>
 
-                <q-td
-                  key="NC_pend"
-                  :props="props"
-                  @click="anarAObsMillores(props.key)"
-                >
-                  {{ props.row.NCPend }}
-                </q-td>
-                <q-td
-                  key="NC_susp"
-                  :props="props"
-                  @click="anarAObsMillores(props.key)"
-                >
-                  {{ props.row.NCSusp }}
-                </q-td>
 
                 <q-td key="ELIMINAR" :props="props">
                   <q-btn
                     color="red-5"
                     text-color="white"
                     icon="delete"
+										size="xs"
                     dense
                     @click="eliminar(props.key)"
                   />
@@ -153,6 +175,7 @@ export default {
 
   data() {
     return {
+			filter: "",
       columns: [
         {
           name: "DATA",
@@ -175,28 +198,11 @@ export default {
         },
 
         {
-          name: "OBS_pend",
-          align: "center",
-          label: "OBS pend.",
-          field: "obsPend",
-          sortable: false,
-          headerClasses: "bg-brown-14 text-brown-1",
-        },
-        {
-          name: "OBS_susp",
-          align: "center",
-          label: "OBS susp.",
-          field: "obsSusp",
-          sortable: false,
-          headerClasses: "bg-brown-14 text-brown-1",
-        },
-
-        {
           name: "NC_pend",
           align: "center",
           label: "NC. pend.",
           field: "NCPend",
-          sortable: false,
+          sortable: true,
           headerClasses: "bg-brown-14 text-brown-1",
         },
         {
@@ -204,9 +210,27 @@ export default {
           align: "center",
           label: "NC. susp.",
           field: "NCSusp",
-          sortable: false,
+          sortable: true,
           headerClasses: "bg-brown-14 text-brown-1",
         },
+
+        {
+          name: "OBS_pend",
+          align: "center",
+          label: "OBS pend.",
+          field: "obsPend",
+          sortable: true,
+          headerClasses: "bg-brown-14 text-brown-1",
+        },
+        {
+          name: "OBS_susp",
+          align: "center",
+          label: "OBS susp.",
+          field: "obsSusp",
+          sortable: true,
+          headerClasses: "bg-brown-14 text-brown-1",
+        },
+
 
         {
           name: "ELIMINAR",
@@ -220,6 +244,8 @@ export default {
 
       txtCentre: null,
       txtData: null,
+
+			bAmaga: false,
 
       activarFormulari: false,
     };
@@ -361,16 +387,16 @@ export default {
 
     arrAuditoriesON: function () {
       let auditONPend = this.auditories.slice(0);
-      console.log("auditONPend");
-      console.log(auditONPend);
+      console.log("auditONPend", auditONPend);
+      
       auditONPend.forEach(function (obj) {
         obj.obsPend = this.comptadors(obj.obs_noConf, "o", "pendent");
         obj.NCPend = this.comptadors(obj.obs_noConf, "n", "pendent");
         obj.obsSusp = this.comptadors(obj.obs_noConf, "o", "suspes");
         obj.NCSusp = this.comptadors(obj.obs_noConf, "n", "suspes");
       }, this);
-      console.log(auditONPend);
-      return auditONPend;
+      console.log("auditONPend2", auditONPend);
+      return auditONPend.filter ( obj2 => obj2.amaga === this.bAmaga);  // mostra audiories no amagades
     },
   },
 };
@@ -396,10 +422,10 @@ export default {
 		background-color: #fff
 
 	td:nth-child(3), td:nth-child(4)
-		background-color: #f5f5dc
+		background-color: #ffd8c4
 
 	td:nth-child(5), td:nth-child(6)
-		background-color: #ffd8c4
+		background-color: #f5f5dc
 
 /*	
  th:first-child,
