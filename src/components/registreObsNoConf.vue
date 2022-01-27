@@ -117,7 +117,7 @@ export default {
 
   computed: {
 		arrSeguiments: function(){
-			return this.$store.state.example.auditories[this.idxAuditoria].obs_noConf[this.idxObsNoConf].seguiment.map((val,idx) => ({...val, index: idx}))
+			return this.$store.state.example.auditories[this.idxAuditoria].obs_noConf[this.idxObsNoConf].seguiment.map((val,idx) => ({...val, index: idx})).reverse()
 		},
 
 

@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <div class="row justify-between">
-        <q-toolbar class="col bg-indigo-10">
+        <q-toolbar class="col bg-brown-10">
           <!-- <q-btn
             flat
             dense

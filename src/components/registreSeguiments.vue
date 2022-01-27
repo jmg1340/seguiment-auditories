@@ -2,7 +2,7 @@
   <!-- <q-card class>
     <q-card-section class="column"> -->
       
-    <div class="column bg-indigo-2">  
+    <div class="column bg-amber-1">  
       <div class="row inline nowrap" v-if="editar">
         <div class="col-2">
           <q-input type="date" square outlined v-model="campSEGData" stack-label label="Data" />

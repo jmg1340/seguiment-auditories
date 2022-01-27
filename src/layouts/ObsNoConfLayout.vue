@@ -1,20 +1,20 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-indigo-10">
+    <q-header elevated class="bg-brown-10">
 
 				<div class="row items-center ">
 					<div class="col-1"></div>
           <div class="col">
 						<div class="row text-center ">	
 							<div class="col">
-								<q-chip square dense color="blue-1" text-color="black">
+								<q-chip square dense color="amber-1" text-color="black">
 									CA:   &nbsp; <span style="color: red; font-weight: bold">{{ auditoria.centre }} </span>
 								</q-chip>
 							</div>
 
 						
 							<div class="col">
-								<q-chip square dense color="blue-1" text-color="black">
+								<q-chip square dense color="amber-1" text-color="black">
 									Data auditoria:  &nbsp; <span style="color: red; font-weight: bold">{{ auditoria.dataAuditoria }} </span>
 								</q-chip>
 							</div>

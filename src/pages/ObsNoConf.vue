@@ -6,16 +6,17 @@
 				<q-checkbox v-model="campAmaga" left-label label="Amagar seguiment d'aquesta auditoria: " class="q-mr-md" />	
 			</div>  
 	
-      <div class="row justify-center">
+      <q-card class="row justify-center q-pa-xs">
         <div class="col-md-10 col-12">
           
 					
 					<q-tabs
             v-model="tab"
-            class="bg-grey-5 text-black shadow-5 rounded-bordered"
+            class="bg-brown-2 text-black"
+						content-class=" shadow-5 rounded-bordered"
             active-color="white text-h6"
-            active-bg-color="black"
-            indicator-color="yellow-2"
+            active-bg-color="brown-8"
+            indicator-color="orange-2"
             align="justify"
           >
             <q-tab name="accionsNoConformitat" label="No Conformitats">
@@ -46,7 +47,7 @@
                 </div>
                 <q-space />
                 <div class="col-8">
-                  <q-card class="bg-lime-2 text-black">
+                  <q-card class="bg-amber-2 text-black">
                   <div class="row q-gutter-x-sm justify-center">
                     <q-radio class="col-auto" color="black" v-model="criteriObs" val="tots" >
                       Tots ({{ comptadorObs.totals }})
@@ -114,7 +115,7 @@
                 </div>
 
                 <div class="col-8">
-                  <q-card class="bg-lime-2 text-black">
+                  <q-card class="bg-amber-2 text-black">
                   <div class="row q-gutter-x-sm justify-center">
                     <q-radio class="col-auto" color="black" v-model="criteriNoC" val="tots" >
                       Tots ({{ comptadorNoConf.totals }})
@@ -168,7 +169,7 @@
             </q-tab-panel>
           </q-tab-panels>
         </div>
-      </div>
+      </q-card>
     </div>
 
 

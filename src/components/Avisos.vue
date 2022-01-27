@@ -4,7 +4,7 @@
 
 		<div class="col"> 
 			<div class="row">
-				<div class="col-2 bordeCapsalera text-center">Data límit Acc.Mej.</div>
+				<div class="col-2 bordeCapsalera text-center">Data límit Acció Millora</div>
 				<div class="col-2 bordeCapsalera">Centre</div>
 				<div class="col-1 bordeCapsalera text-center">Obs/NC</div>
 				<!-- <div class="col-1 bordeCapsalera text-center">Num</div> -->
@@ -82,8 +82,8 @@ export default {
 
 			if (dAM == null || dAM=="")          return ""
 			if (difDias < 0 )                    return "Fora de termini en " + Math.abs(difDias) + " dies !!"
-			if (difDias >= 0  && difDias <= 30)  return "Falta menys d'un mes!! (" + Math.abs(difDias) + " dies)"
-			if (difDias > 30 )                   return "Falten " + Math.abs(difDias) + " dies !!"
+			if (difDias >= 0  && difDias <= 60)  return "Falta menys de 2 mesos!! (" + Math.abs(difDias) + " dies)"
+			if (difDias > 30 )                   return "Falten " + Math.abs(difDias) + " dies."
 		}
 
 
@@ -119,7 +119,7 @@ export default {
 							contdias = Math.round(diasdif/(1000*60*60*24));
 							
 							//console.log("diferencia: " + contdias + "\tdiesAvis: " + ultimRegistre.diesAvis)
-							if (contdias > ultimRegistre.diesAvis ){
+							if (contdias > ultimRegistre.diesAvis || this.diferenciaDataAM(dataAM).includes("Fora de termini")){
 								let urData = ultimRegistre.data
 								let urText = ultimRegistre.text
 								let urDiesAvis = ultimRegistre.diesAvis
