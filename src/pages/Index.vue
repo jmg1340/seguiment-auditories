@@ -323,6 +323,7 @@ export default {
 
     afegirRegistre: function () {
       let obj = {
+				amaga: false,
         centre: this.txtCentre,
         dataAuditoria: this.txtData,
         obs_noConf: [],
