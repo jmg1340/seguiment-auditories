@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-card class="">
+    <q-card class="q-pb-xs">
       <q-card-section class="column">
         <div class="row inline nowrap" v-if="editar">
           
@@ -52,19 +52,40 @@
       </q-card-section>
 
 
-      <q-card-section>
-        <div class="row q-mb-lg">
-          <q-btn color="blue-2" text-color="black" icon="note_add" label="Nou registre" noCaps dense @click="nouSEG"/>
-        </div>
-        <div class="q-gutter-y-xs">
-            <div v-for="(registre, index) in arrSeguiments" :key="`seg_${index}`">
-                <cmp_regSEG :idxAuditoria="idxAuditoria" :idxObsNoConf="idxObsNoConf" :idxSeg="registre.index"/>
-            </div>
-        </div>
 
-      </q-card-section>
+
+			<q-expansion-item
+        icon="list"
+        label="Seguiment..."
+				header-class="bg-blue-2"
+				class="q-ma-sm"
+				dense
+      >
+
+				<q-card-section>
+					<div class="row q-mb-lg">
+						<q-btn color="blue-2" text-color="black" icon="note_add" label="Nou registre" noCaps dense @click="nouSEG"/>
+					</div>
+					<div class="q-gutter-y-xs">
+							<div v-for="(registre, index) in arrSeguiments" :key="`seg_${index}`">
+									<cmp_regSEG :idxAuditoria="idxAuditoria" :idxObsNoConf="idxObsNoConf" :idxSeg="registre.index"/>
+							</div>
+					</div>
+
+				</q-card-section>
+
+			</q-expansion-item>
+
 
     </q-card>
+
+
+
+
+
+
+
+
 
 
     <q-dialog v-model="activarFormulariSEG" persistent>

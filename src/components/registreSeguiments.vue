@@ -131,26 +131,26 @@ export default {
       console.log(objReg);
       console.log("------------------");
       // busquem quin index te a l'array obs_noConf
-      let idxON = this.$store.state.example.auditories[
-        this.idxAuditoria
-      ].obs_noConf[this.idxObsNoConf].seguiment.findIndex(function(obj) {
-        return (
-          obj.data == objReg.data &&
-          obj.text == objReg.text
-        );
-      });
-      console.log("idxON: " + idxON);
+      // let idxON = this.$store.state.example.auditories[
+      //   this.idxAuditoria
+      // ].obs_noConf[this.idxObsNoConf].seguiment.findIndex(function(obj) {
+      //   return (
+      //     obj.data == objReg.data &&
+      //     obj.text == objReg.text
+      //   );
+      // });
+      // console.log("idxON: " + idxON);
 
-      if (idxON != -1) {
+      // if (idxON != -1) {
         this.$store.commit("example/mutEliminarSEG", {
-          idxON,
+          idxON: this.idxObsNoConf,
           idxAuditoria: this.idxAuditoria,
           idxSeg: this.idxSeg
 
         });
-      } else {
-        console.log("No s'ha trobat index");
-      }
+      // } else {
+      //   console.log("No s'ha trobat index");
+      // }
     }
   }
 };
